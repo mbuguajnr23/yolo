@@ -56,5 +56,8 @@ Verified the Docker Hub access token and ensured it is correctly stored in GitHu
 Reviewed and corrected the docker/login-action step in the GitHub Actions workflow.
 
 ### Image Tagging:
-Used semantic versioning and timestamp-based tags for Docker images.
-Example tags: yolo-client:latest, yolo-client:202407212117
+Used git commit count as tags for Docker images.
+Example tags:  yolo-client:1, yolo-client:2
+
+![client_img](images/client_img.png)
+![backend_img](images/backend_img.png)
