@@ -29,11 +29,10 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_ACCESS_TOKEN }}
-          logout: true
 
       - name: Get commit count
         id: commit_count
-        run: echo "::set-output name=count::$(git rev-list --count HEAD)"
+        run: echo "count=$(git rev-list --count HEAD)" >> $GITHUB_ENV
 
       - name: Build and push client image
         run: |
@@ -43,7 +42,7 @@ jobs:
             --cache-to=type=local,dest=/tmp/.buildx-cache-new \
             --file client/Dockerfile \
             --tag ${{ secrets.DOCKER_USERNAME }}/yolo-client:latest \
-            --tag ${{ secrets.DOCKER_USERNAME }}/yolo-client:${{ steps.commit_count.outputs.count }} \
+            --tag ${{ secrets.DOCKER_USERNAME }}/yolo-client:${{ env.count }} \
             --push .
 
       - name: Build and push backend image
@@ -54,7 +53,7 @@ jobs:
             --cache-to=type=local,dest=/tmp/.buildx-cache-new \
             --file backend/Dockerfile \
             --tag ${{ secrets.DOCKER_USERNAME }}/yolo-backend:latest \
-            --tag ${{ secrets.DOCKER_USERNAME }}/yolo-backend:${{ steps.commit_count.outputs.count }} \
+            --tag ${{ secrets.DOCKER_USERNAME }}/yolo-backend:${{ env.count }} \
             --push .
 
       - name: Save cache
