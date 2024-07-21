@@ -37,7 +37,7 @@ jobs:
             --build-arg BUILDKIT_INLINE_CACHE=1 \
             --cache-from=type=local,src=/tmp/.buildx-cache \
             --cache-to=type=local,dest=/tmp/.buildx-cache-new \
-            --file client/Dockerfile.client \
+            --file client/Dockerfile \
             --tag ${{ secrets.DOCKER_USERNAME }}/yolo-client:latest \
             --tag ${{ secrets.DOCKER_USERNAME }}/yolo-client:$(date +%Y%m%d%H%M%S) \
             --push .
@@ -48,7 +48,7 @@ jobs:
             --build-arg BUILDKIT_INLINE_CACHE=1 \
             --cache-from=type=local,src=/tmp/.buildx-cache \
             --cache-to=type=local,dest=/tmp/.buildx-cache-new \
-            --file backend/Dockerfile.backend \
+            --file backend/Dockerfile \
             --tag ${{ secrets.DOCKER_USERNAME }}/yolo-backend:latest \
             --tag ${{ secrets.DOCKER_USERNAME }}/yolo-backend:$(date +%Y%m%d%H%M%S) \
             --push .
