@@ -4,8 +4,11 @@ services:
   client:
     build:
       context: ./client
-    image: mbuguajnr/frontend:v1.0.0
-    container_name: client_container
+      dockerfile: Dockerfile
+    image: yolo-client:1.0.0
+    container_name: web
+    environment:
+      - NODE_ENV=production
     ports:
       - "3000:3000"
     depends_on:
@@ -16,12 +19,13 @@ services:
   backend:
     build:
       context: ./backend
-    image: mbuguajnr/backend:v1.0.0
-    container_name: backend_container
+      dockerfile: Dockerfile
+    image: yolo-backend:1.0.0
+    container_name: API
     ports:
       - "5000:5000"
     environment:
-      MONGODB_URI: mongodb://mongo/yolomy
+      - MONGODB_URI=mongodb://mongo:27017/yolomy
     depends_on:
       - mongo
     networks:
@@ -29,7 +33,7 @@ services:
 
   mongo:
     image: mongo:latest
-    container_name: mongo_container
+    container_name: database_container
     ports:
       - "27017:27017"
     volumes:
