@@ -11,7 +11,7 @@ COPY client/package*.json ./
 RUN npm install
 
 # Copy the rest of the client application code to the working directory
-COPY . .
+COPY client/ .
 
 
 # Build the application
