@@ -1,5 +1,5 @@
 # Build stage
-FROM node:16-alpine3.16 AS build_stage
+FROM node:14-alpine3.16 AS build_stage
 
 # Set the working directory inside the container
 WORKDIR /app
@@ -13,8 +13,6 @@ RUN npm install
 # Copy the rest of the client application code to the working directory
 COPY client/ ./
 
-# Set the environment variable to use legacy OpenSSL providers
-ENV NODE_OPTIONS=--openssl-legacy-provider
 
 # Build the application
 RUN npm run build
