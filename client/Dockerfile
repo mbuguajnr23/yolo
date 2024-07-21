@@ -5,13 +5,14 @@ FROM node:14-alpine3.16 AS build_stage
 WORKDIR /app
 
 # Copy package.json and package-lock.json to install dependencies
-COPY package*.json ./
+COPY client/package*.json ./
 
 # Install npm dependencies
 RUN npm install
 
 # Copy the rest of the client application code to the working directory
-COPY . .
+COPY client/ ./
+
 
 # Build the application
 RUN npm run build
