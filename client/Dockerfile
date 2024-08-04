@@ -1,35 +1,34 @@
 # Build stage
-FROM node:14-alpine3.16 as build
+FROM node:16-alpine3.16 as build-stage
 
 # Set the working directory inside the container
-WORKDIR /app
+WORKDIR /client
 
-# Copy package.json and package-lock.json to install dependencies
+# Copy package.json and package-lock.json
 COPY package*.json ./
 
-# Install npm dependencies
-RUN npm install
+# Install dependencies
+RUN npm install --only=production
 
-# Copy the rest of the client application code to the working directory
-COPY ./ ./
+# Copy the rest of the application code
+COPY . .
 
 # Build the application
 RUN npm run build
 
 # Production stage
-FROM node:14-alpine3.16 as production-stage
+FROM node:16-alpine3.16 as production-stage
 
-# Set the working directory inside the container
-WORKDIR /app
+WORKDIR /client
 
-# Copy the built app from the build stage to the production container
-COPY --from=build /app/build /app/build
+# Copy only the built files from the build stage
+COPY --from=build-stage /client/build ./build
 
-# Install serve globally to serve the app
+# Install a lightweight HTTP server to serve the built files
 RUN npm install -g serve
 
-# Expose port 3000 to communicate with the outside world
+# Expose the port used by the app
 EXPOSE 3000
 
-# Command to serve the app
+# Command to serve the built application
 CMD ["serve", "-s", "build"]
