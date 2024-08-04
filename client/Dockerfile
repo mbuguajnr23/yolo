@@ -24,6 +24,9 @@ WORKDIR /client
 # Copy only the built files from the build stage
 COPY --from=build-stage /client/build ./build
 
+# Set the environment variable for the app
+ENV NODE_ENV=production
+
 # Install a lightweight HTTP server to serve the built files
 RUN npm install -g serve
 
