@@ -1,0 +1,4 @@
+---
+- name: Run MongoDB container
+  shell: |
+    docker run -d --name mongodb --network={{ app_network }} -v {{ mongo_volume }}:/data/db -p {{ mongo_port }}:27017 mongo

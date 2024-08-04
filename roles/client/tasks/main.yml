@@ -1,0 +1,11 @@
+---
+- name: Clone the client repository
+  git:
+    repo: 'https://github.com/mbuguajnr23/yolo.git'
+    dest: /home/vagrant/yolo
+
+- name: Build and run the client container
+  shell: |
+    cd /home/vagrant/yolo/client
+    docker build -t client .
+    docker run -d --name client --network={{ app_network }} -p {{ client_port }}:3000 client

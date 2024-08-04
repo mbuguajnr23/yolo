@@ -1,0 +1,11 @@
+---
+# - name: Clone the backend repository
+#   git:
+#     repo: 'https://github.com/mbuguajnr23/yolo.git'
+#     dest: /home/vagrant/backend
+
+- name: Build and run the backend container
+  shell: |
+    cd /home/vagrant/yolo/backend
+    docker build -t backend .
+    docker run -d --name backend --network={{ app_network }} -p {{ backend_port }}:5000 backend
