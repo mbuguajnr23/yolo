@@ -12,7 +12,7 @@ COPY package*.json ./
 RUN npm install
 
 # Copy the rest of the client application code to the working directory
-COPY . .
+COPY ./ ./
 
 # Build the application and remove development dependencies
 RUN npm run build && \
