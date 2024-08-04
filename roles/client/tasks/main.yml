@@ -9,13 +9,23 @@
     path: /home/vagrant/yolo
     state: directory
 
-- name: Clone the client repository
+- name: Clone the repository
   git:
-    repo: 'https://github.com/your-repo/client.git'
-    dest: /home/vagrant/yolo/client
+    repo: 'https://github.com/mbuguajnr23/yolo.git'
+    dest: /home/vagrant/yolo/
 
-- name: Build and run the client container
-  shell: |
-    cd /home/vagrant/yolo/client
-    docker build -t client .
-    docker run -d --name client --network={{ app_network }} -p {{ client_port }}:3000 client
+- name: Build the client image
+  docker_image:
+    name: client
+    source: /home/vagrant/yolo/client
+
+- name: Run the client container
+  docker_container:
+    name: client
+    image: client
+    state: started
+    restart_policy: always
+    networks:
+      - name: "{{ app_network }}"
+    ports:
+      - "{{ client_port }}:3000"
