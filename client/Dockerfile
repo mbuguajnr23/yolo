@@ -27,6 +27,9 @@ WORKDIR /app
 # Copy the built app from the build stage to the production container
 COPY --from=build /app /app
 
+# Install serve globally
+RUN npm install -g serve
+
 # Expose port 3000 to communicate with the outside world
 EXPOSE 3000
 
