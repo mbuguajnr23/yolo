@@ -1,4 +1,17 @@
 ---
+- name: Create Docker volume for MongoDB
+  docker_volume:
+    name: "{{ mongo_volume }}"
+
 - name: Run MongoDB container
-  shell: |
-    docker run -d --name mongodb --network={{ app_network }} -v {{ mongo_volume }}:/data/db -p {{ mongo_port }}:27017 mongo
+  docker_container:
+    name: mongodb
+    image: mongo:latest
+    state: started
+    restart_policy: always
+    ports:
+      - "{{ mongo_port }}:27017"
+    volumes:
+      - "{{ mongo_volume }}:/data/db"
+    networks:
+      - name: "{{ app_network }}"

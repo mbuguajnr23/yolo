@@ -9,6 +9,7 @@
     mongo_volume: mongo_data
   roles:
     - docker
+    - docker_network
     - client
     - backend
     - mongodb

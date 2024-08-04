@@ -1,8 +1,7 @@
----
-# - name: Clone the backend repository
-#   git:
-#     repo: 'https://github.com/mbuguajnr23/yolo.git'
-#     dest: /home/vagrant/backend
+- name: Clone the backend repository
+  git:
+    repo: 'https://github.com/your-repo/backend.git'
+    dest: /home/vagrant/yolo/backend
 
 - name: Build and run the backend container
   shell: |
