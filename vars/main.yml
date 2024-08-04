@@ -1,0 +1,5 @@
+# vars/main.yml
+---
+docker_version: "20.10"
+app_repo: "https://github.com/mbuguajnr23/yolo.git"
+app_dir: "/client/public/index.html"
