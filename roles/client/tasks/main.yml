@@ -14,6 +14,10 @@
     repo: 'https://github.com/mbuguajnr23/yolo.git'
     dest: /home/vagrant/yolo/
 
+- name: Remove existing client container if it exists
+  shell: |
+    docker rm -f client || true
+
 - name: Build the client image
   docker_image:
     name: client
