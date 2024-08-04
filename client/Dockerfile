@@ -1,43 +1,35 @@
 # Build stage
-FROM node:16-alpine3.16 as build-stage
+FROM node:14-alpine3.16 as build
 
 # Set the working directory inside the container
-WORKDIR /client
+WORKDIR /app
 
-# Copy package.json and package-lock.json
+# Copy package.json and package-lock.json to install dependencies
 COPY package*.json ./
 
-# Install dependencies and clears the npm cache and removes any temporary files
-RUN npm install --only=production && \
-    npm cache clean --force && \
-    rm -rf /tmp/*
+# Install npm dependencies
+RUN npm install
 
-# Copy the rest of the application code
+# Copy the rest of the client application code to the working directory
 COPY ./ ./
 
-# Build the application and  remove development dependencies
-RUN npm run build && \
-    npm prune --production
+# Build the application
+RUN npm run build
 
 # Production stage
-FROM node:16-alpine3.16 as production-stage
+FROM node:14-alpine3.16 as production-stage
 
-WORKDIR /client
+# Set the working directory inside the container
+WORKDIR /app
 
-# Copy only the necessary files from the build stage
-COPY --from=build-stage /client/build ./build
-COPY --from=build-stage /client/public ./public
-COPY --from=build-stage /client/src ./src
-COPY --from=build-stage /client/package*.json ./
+# Copy the built app from the build stage to the production container
+COPY --from=build /app/build /app/build
 
-# Set the environment variable for the app
-ENV NODE_ENV=production
+# Install serve globally to serve the app
+RUN npm install -g serve
 
-# Expose the port used by the app
+# Expose port 3000 to communicate with the outside world
 EXPOSE 3000
 
-# Prune the node_modules directory to remove development dependencies and clears the npm cache and removes any temporary files
-
-
-# Start the application
-CMD ["npm", "start"]
+# Command to serve the app
+CMD ["serve", "-s", "build"]
