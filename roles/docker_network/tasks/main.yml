@@ -1,0 +1,4 @@
+---
+- name: Create Docker network
+  command: docker network create {{ app_network }}
+  ignore_errors: yes

@@ -10,7 +10,7 @@
     path: /home/vagrant/yolo
     state: directory
 
-- name: Clone the client repository
+- name: Clone the yolo repository
   git:
     repo: 'https://github.com/mbuguajnr23/yolo.git'
     dest: /home/vagrant/yolo
