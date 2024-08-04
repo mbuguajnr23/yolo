@@ -74,6 +74,7 @@ Vagrant.configure("2") do |config|
     sudo apt-get update
     sudo apt-get install -y python3 python3-pip
     sudo pip3 install ansible
+    sudo pip3 install docker
   SHELL
 
   config.vm.provision "ansible_local" do |ansible|

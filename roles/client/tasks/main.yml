@@ -17,8 +17,10 @@
 - name: Build the client image
   docker_image:
     name: client
-    source: /home/vagrant/yolo/client
-
+    source: build
+    build:
+      path: /home/vagrant/yolo/client
+      
 - name: Run the client container
   docker_container:
     name: client
