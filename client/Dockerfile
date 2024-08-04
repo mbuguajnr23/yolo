@@ -1,35 +1,43 @@
 # Build stage
-FROM node:14-alpine3.16 as build
+FROM node:16-alpine3.16 as build-stage
 
 # Set the working directory inside the container
-WORKDIR /app
+WORKDIR /client
 
-# Copy package.json and package-lock.json to install dependencies
+# Copy package.json and package-lock.json
 COPY package*.json ./
 
-# Install npm dependencies
-RUN npm install
+# Install dependencies and clears the npm cache and removes any temporary files
+RUN npm install --only=production && \
+    npm cache clean --force && \
+    rm -rf /tmp/*
 
-# Copy the rest of the client application code to the working directory
+# Copy the rest of the application code
 COPY ./ ./
 
-# Build the application and remove development dependencies
+# Build the application and  remove development dependencies
 RUN npm run build && \
     npm prune --production
 
 # Production stage
-FROM node:14-alpine3.16 as production-stage
+FROM node:16-alpine3.16 as production-stage
 
-WORKDIR /app
+WORKDIR /client
 
-COPY --from=build /app /app
+# Copy only the necessary files from the build stage
+COPY --from=build-stage /client/build ./build
+COPY --from=build-stage /client/public ./public
+COPY --from=build-stage /client/src ./src
+COPY --from=build-stage /client/package*.json ./
 
+# Set the environment variable for the app
 ENV NODE_ENV=production
 
-RUN npm install -g serve
-
+# Expose the port used by the app
 EXPOSE 3000
 
-CMD ["sh"]  
-# For debugging, replace this with ["serve", "-s", "build"] after fixing issues
+# Prune the node_modules directory to remove development dependencies and clears the npm cache and removes any temporary files
 
+
+# Start the application
+CMD ["npm", "start"]
