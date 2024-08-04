@@ -26,6 +26,9 @@ WORKDIR /app
 # Copy the built app from the build stage to the production container
 COPY --from=build /app /app
 
+# Set the environment variable for the app
+ENV NODE_ENV=production
+
 # Install serve globally
 RUN npm install -g serve
 
