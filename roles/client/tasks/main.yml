@@ -1,18 +1,31 @@
 ---
+- name: Ensure yolo directory is absent
+  file:
+    path: /home/vagrant/yolo
+    state: absent
+  ignore_errors: yes
+
+- name: Create yolo directory
+  file:
+    path: /home/vagrant/yolo
+    state: directory
+
 - name: Clone the client repository
   git:
-    repo: 'https://github.com/mbuguajnr23/yolo.git'
+    repo: 'https://github.com/your-repo/client.git'
     dest: /home/vagrant/yolo
+    force: yes
+  register: git_clone
 
 - name: Build and run the client container
   shell: |
     cd /home/vagrant/yolo/client
     docker build -t client .
-    docker run -d --name client --network=app-network -p 3000:3000 client
+    docker run -d --name client --network={{ app_network }} -p {{ client_port }}:3000 client
   args:
     chdir: /home/vagrant/yolo/client
   register: build_output
-  # ignore_errors: yes
+  ignore_errors: yes
 
 - name: Debug build output
   debug:
