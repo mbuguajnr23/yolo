@@ -1,4 +1,8 @@
----
-- name: Create Docker network
-  command: docker network create {{ app_network }}
+- name: Check if Docker network exists
+  command: docker network ls --filter name={{ app_network }} --format "{{ '{{' }}.Name{{ '}}' }}"
+  register: network_check
   ignore_errors: yes
+
+- name: Create Docker network if it does not exist
+  command: docker network create {{ app_network }}
+  when: network_check.stdout == ''
