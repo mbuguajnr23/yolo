@@ -8,4 +8,12 @@
   shell: |
     cd /home/vagrant/yolo/client
     docker build -t client .
-    docker run -d --name client --network={{ app_network }} -p {{ client_port }}:3000 client
+    docker run -d --name client --network=app-network -p 3000:3000 client
+  args:
+    chdir: /home/vagrant/yolo/client
+  register: build_output
+  # ignore_errors: yes
+
+- name: Debug build output
+  debug:
+    var: build_output.stderr_lines
