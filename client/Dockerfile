@@ -5,7 +5,8 @@ FROM node:14-alpine3.16 as build
 WORKDIR /app
 
 # Copy package.json and package-lock.json to install dependencies
-COPY package*.json .
+COPY package*.json ./
+
 
 # Install npm dependencies
 RUN npm install
@@ -13,12 +14,12 @@ RUN npm install
 # Copy the rest of the client application code to the working directory
 COPY . .
 
-# Build the application and  remove development dependencies
+# Build the application and remove development dependencies
 RUN npm run build && \
     npm prune --production
 
 # Production stage
-FROM node:16-alpine3.16 as production-stage
+FROM node:14-alpine3.16 as production-stage
 
 # Set the working directory inside the container
 WORKDIR /app
