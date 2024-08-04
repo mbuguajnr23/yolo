@@ -20,20 +20,16 @@ RUN npm run build && \
 # Production stage
 FROM node:14-alpine3.16 as production-stage
 
-# Set the working directory inside the container
 WORKDIR /app
 
-# Copy the built app from the build stage to the production container
 COPY --from=build /app /app
 
-# Set the environment variable for the app
 ENV NODE_ENV=production
 
-# Install serve globally
 RUN npm install -g serve
 
-# Expose port 3000 to communicate with the outside world
 EXPOSE 3000
 
-# Command to start the application
-CMD ["serve", "-s", "build"]
+CMD ["sh"]  
+# For debugging, replace this with ["serve", "-s", "build"] after fixing issues
+

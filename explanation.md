@@ -61,3 +61,31 @@ Example tags:  yolo-client:1, yolo-client:2
 
 ![client_img](images/client_img.png)
 ![backend_img](images/backend_img.png)
+
+
+## Ansible Playbook Explanation
+
+### Variables
+- `docker_version`: Specifies the Docker version to install.
+- `app_repo`: URL of the application repository.
+- `app_dir`: Directory to clone the application into.
+
+### Roles
+1. **docker**: Installs and starts Docker.
+2. **web**: Clones the application repository and runs the web application container.
+3. **mongo**: Runs the MongoDB container.
+
+### Playbook Execution Order
+1. Install necessary packages.
+2. Install and start Docker.
+3. Clone the application repository.
+4. Build and run the web application container.
+5. Run MongoDB container.
+
+### Tags
+- `install_packages`
+- `install_docker`
+- `start_docker`
+- `clone_repo`
+- `run_web_container`
+- `run_mongo_container`
