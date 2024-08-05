@@ -9,29 +9,21 @@
     path: /home/vagrant/yolo
     state: directory
 
-- name: Clone the repository
-  git:
-    repo: 'https://github.com/mbuguajnr23/yolo.git'
-    dest: /home/vagrant/yolo/
-
 - name: Remove existing client container if it exists
   shell: |
     docker rm -f client || true
 
-- name: Build the client image
+- name: Pull Client Docker Image
   docker_image:
-    name: client
-    source: build
-    build:
-      path: /home/vagrant/yolo/client
-      
-- name: Run the client container
+    name: "{{ frontend_image }}"
+    source: pull
+
+- name: Run Client Container
   docker_container:
-    name: client
-    image: client
+    name: "{{ frontend_container_name }}"
+    image: "{{ frontend_image }}"
     state: started
-    restart_policy: always
-    networks:
-      - name: "{{ app_network }}"
     ports:
       - "{{ client_port }}:3000"
+    networks:
+      - name: "{{ app_network }}"
