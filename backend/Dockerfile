@@ -11,7 +11,7 @@ COPY package*.json ./
 RUN npm install
 
 # Copy the entire of the application code to the working directory
-COPY . .
+COPY ./ ./
 
 # Expose the port on which the Node.js application will run
 EXPOSE 5000
