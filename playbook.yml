@@ -7,9 +7,19 @@
     client_port: 3000
     app_network: app-network
     mongo_volume: mongo_data
+
   roles:
-    - docker
-    - docker_network
-    - client
-    - backend
-    - mongodb
+    - role: docker
+      tags: docker
+
+    - role: docker_network
+      tags: docker_network
+
+    - role: mongodb
+      tags: mongodb
+
+    - role: backend
+      tags: backend
+
+    - role: client
+      tags: client
