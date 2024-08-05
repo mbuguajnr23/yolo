@@ -1,9 +1,15 @@
-- name: Remove existing backend container if it exists
-  shell: |
-    docker rm -f backend || true
+---
+- name: Pull Backend Docker Image
+  docker_image:
+    name: "{{ backend_image }}"
+    source: pull
 
-- name: Build and run the backend container
-  shell: |
-    cd /home/vagrant/yolo/backend
-    docker build -t backend .
-    docker run -d --name backend --network={{ app_network }} -p {{ backend_port }}:5000 backend
+- name: Run Backend Container
+  docker_container:
+    name: "{{ backend_container_name }}"
+    image: "{{ backend_image }}"
+    state: started
+    ports:
+      - "{{ backend_port }}:5000"
+    networks:
+      - name: "{{ app_network }}"
