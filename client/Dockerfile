@@ -11,7 +11,7 @@ COPY package*.json ./
 RUN npm install --only=production
 
 # Copy the rest of the application code
-COPY . .
+COPY ./ ./
 
 # Build the application
 RUN npm run build
