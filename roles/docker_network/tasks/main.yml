@@ -1,3 +1,4 @@
+---
 - name: Check if Docker network exists
   command: docker network ls --filter name={{ app_network }} --format "{{ '{{' }}.Name{{ '}}' }}"
   register: network_check

@@ -1,0 +1,3 @@
+---
+# vars file for docker_network
+app_network: "app-network"
