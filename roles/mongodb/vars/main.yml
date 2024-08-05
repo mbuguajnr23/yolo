@@ -1,0 +1,7 @@
+---
+# vars file for mongodb
+mongodb_image: "mongo:latest"
+mongodb_container_name: "mongodb"
+mongo_port: 27017
+app_network: "app-network"
+mongo_volume: "mongo_data"
