@@ -31,15 +31,15 @@ services:
     networks:
       - app-network
 
-  # mongo:
-  #   image: mongo:latest
-  #   container_name: database_container
-  #   ports:
-  #     - "27017:27017"
-  #   volumes:
-  #     - mongo_data:/data/db
-  #   networks:
-  #     - app-network
+  mongo:
+    image: mongo:latest
+    container_name: database_container
+    ports:
+      - "27018:27017"
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - app-network
 
 volumes:
   mongo_data: 
