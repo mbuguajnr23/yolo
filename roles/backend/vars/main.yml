@@ -1,6 +1,0 @@
----
-# vars file for backend
-backend_image: "mbu9ua/yolo-backend:1.0.0"
-backend_container_name: "yolo-backend"
-backend_port: 5000
-app_network: "app-network"
