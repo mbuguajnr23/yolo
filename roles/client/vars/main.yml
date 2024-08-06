@@ -1,5 +1,0 @@
----
-frontend_image: "mbu9ua/yolo-client:1"
-frontend_container_name: "client"
-client_port: 3000
-app_network: "app-network"
