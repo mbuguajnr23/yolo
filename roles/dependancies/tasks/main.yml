@@ -1,0 +1,14 @@
+# tasks file for dependencies
+---
+- name: Install prerequisites
+  apt:
+    name:
+      - apt-transport-https
+      - ca-certificates
+      - curl
+      - gnupg-agent
+      - software-properties-common
+    state: present
+    update_cache: yes
+
+
