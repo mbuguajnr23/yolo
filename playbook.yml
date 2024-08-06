@@ -3,38 +3,10 @@
   become: true
 
   roles:
+    - clone_git 
+    - dependancies 
+    - docker-compose
     - docker
-    - docker_network
-    - client
-    - backend
     - mongodb
-
-- hosts: all
-  become: yes
-
-  tasks:
+    - deploy
     
-    - name: Set up Docker and run containers
-      include_role:
-        name: docker
-      tags: docker
-
-    - name: Set up Docker network
-      include_role:
-        name: docker_network
-      tags: docker_network
-
-    - name: Set up web application
-      include_role:
-        name: client
-      tags: client
-
-    - name: Set up backend application
-      include_role:
-        name: backend
-      tags: backend
-
-    - name: Set up MongoDB
-      include_role:
-        name: mongodb
-      tags: mongodb
