@@ -1,0 +1,4 @@
+- name: Run Docker Compose
+  command: docker-compose -f /home/vagrant/yolo/docker-compose.yml up -d
+  tags:
+    - deploy
