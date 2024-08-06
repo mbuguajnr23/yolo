@@ -1,0 +1,4 @@
+# vars file for clone_git
+---
+repo_url: 'https://github.com/mbuguajnr23/yolo.git'
+dest_dir: '/home/vagrant/yolo'

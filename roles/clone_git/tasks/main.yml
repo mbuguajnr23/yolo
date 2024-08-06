@@ -1,0 +1,11 @@
+---
+- name: Ensure the yolo directory exists
+  file:
+    path: /home/vagrant/yolo
+    state: directory
+
+- name: Clone the GitHub repository
+  git:
+    repo: "{{ repo_url }}"
+    dest: "{{ dest_dir }}"
+    version: master
