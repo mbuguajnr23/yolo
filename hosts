@@ -1,2 +1,1 @@
-[yolo]
-yolo
+yolo-server ansible_connection=local
