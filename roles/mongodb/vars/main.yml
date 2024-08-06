@@ -1,7 +1,2 @@
 ---
-# vars file for mongodb
-mongodb_image: "mongo:latest"
-mongodb_container_name: "mongodb"
-mongo_port: 27017
-app_network: "app-network"
-mongo_volume: "mongo_data"
+mongodb_repo: 'deb [ arch=amd64 ] http://repo.mongodb.org/apt/ubuntu focal 10gen'

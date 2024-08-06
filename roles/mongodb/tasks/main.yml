@@ -1,17 +1,48 @@
----
-- name: Pull MongoDB Docker Image
-  docker_image:
-    name: "{{ mongodb_image }}"
-    source: pull
+- name: Ensure gnupg and curl are installed
+  ansible.builtin.apt:
+    name:
+      - gnupg
+      - curl
+    state: present
 
-- name: Run MongoDB Container
-  docker_container:
-    name: "{{ mongodb_container_name }}"
-    image: "{{ mongodb_image }}"
+- name: Download the MongoDB public GPG key
+  ansible.builtin.get_url:
+    url: https://www.mongodb.org/static/pgp/server-7.0.asc
+    dest: /tmp/mongodb-server-7.0.asc
+
+- name: Import the MongoDB public GPG key
+  ansible.builtin.command:
+    cmd: gpg --dearmor --batch --yes -o /usr/share/keyrings/mongodb-server-7.0.gpg /tmp/mongodb-server-7.0.asc
+  become: yes
+
+- name: Create MongoDB list file
+  ansible.builtin.copy:
+    content: "deb [ arch=amd64,arm64 signed-by=/usr/share/keyrings/mongodb-server-7.0.gpg ] https://repo.mongodb.org/apt/ubuntu {{ ansible_distribution_release }}/mongodb-org/7.0 multiverse"
+    dest: /etc/apt/sources.list.d/mongodb-org-7.0.list
+  become: yes
+
+- name: Reload local package database
+  ansible.builtin.apt:
+    update_cache: yes
+
+- name: Install MongoDB
+  ansible.builtin.apt:
+    name: mongodb-org
+    state: present
+
+- name: Pin MongoDB packages to prevent unintended upgrades
+  ansible.builtin.shell: |
+    echo "mongodb-org hold" | sudo dpkg --set-selections
+    echo "mongodb-org-database hold" | sudo dpkg --set-selections
+    echo "mongodb-org-server hold" | sudo dpkg --set-selections
+    echo "mongodb-mongosh hold" | sudo dpkg --set-selections
+    echo "mongodb-org-mongos hold" | sudo dpkg --set-selections
+    echo "mongodb-org-tools hold" | sudo dpkg --set-selections
+  become: yes
+
+- name: Start and enable MongoDB service
+  ansible.builtin.systemd:
+    name: mongod
     state: started
-    ports:
-      - "{{ mongo_port }}:27017"
-    networks:
-      - name: "{{ app_network }}"
-    volumes:
-      - "{{ mongo_volume }}:/data/db"
+    enabled: yes
+
